@@ -1,15 +1,16 @@
 #!/bin/bash
 
 #Variable para que los uid no se repitan
-comprobarID=$(($comprobarID + 1))
+primerInicio=$(($primerInicio + 1))
 
 #Comprobación para que no inicie de nuevo las variables al valor por defecto
 # si se ejecuta de nuevo en la misma maquina.
-if [ $comprobarID -eq 1 ]
+if [ $primerInicio -eq 1 ]
 then
         uid=3000
         gid=2001
-        comprobarID=2
+        touch usuarios_empresa.ldif
+        primerInicio=2
 fi
 
 #Limpiamos el fichero de inserción de usuarios
