@@ -1,0 +1,36 @@
+#!/bin/bash
+
+#Variable para que los uid no se repitan
+comprobarID=1
+
+#Comprobación para que no inicie de nuevo las variables al valor por defecto
+# si se ejecuta de nuevo en la misma maquina.
+if [ $comprobarID -eq 1 ]
+then
+        uid=3000
+        gid=2001
+        comprobarID=0
+fi
+
+#Limpiamos el fichero de inserción de usuarios
+echo > usuarios_empresa.ldif
+#Añadimos los parámetros
+while IFS=: read -r cn sn usuario clave
+do
+        echo "dn: uid=$usuario,ou=People,dc=gonzalonazareno,dc=org">>usuarios_empresa.ldif
+        echo "objectClass: top">>usuarios_empresa.ldif
+        echo "objectClass: posixAccount">>usuarios_empresa.ldif
+        echo "objectClass: inetOrgPerson">>usuarios_empresa.ldif
+        echo "cn: $cn">>usuarios_empresa.ldif
+        echo "uid: $usuario">>usuarios_empresa.ldif
+        echo "homeDirectory: /home/$usuario">>usuarios_empresa.ldif
+        echo "uidNumber: $uid">>usuarios_empresa.ldif
+        echo "gidNumber: $gid">>usuarios_empresa.ldif
+        echo "loginShell: /bin/bash">>usuarios_empresa.ldif
+        echo "userPassword:: $clave">>usuarios_empresa.ldif
+        echo -e "sn: $sn\n">>usuarios_empresa.ldif
+done < usuarios_empresa.csv
+
+#Se añaden los usuarios insertados en el fichero al arbol de ldap
+#que especifiquemos
+ldapadd -f usuarios_empresa.ldif -x -D "cn=admin,dc=gonzalonazareno,dc=org" -W
