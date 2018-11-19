@@ -1,9 +1,11 @@
 #!/bin/bash
 
-#Variable para que los uid no se repitan
+# Variable para que los uid no se repitan y
+# el fichero ldif se cree solo una vez.
 primerInicio=$(($primerInicio + 1))
 
-#Comprobación para que no inicie de nuevo las variables al valor por defecto
+# Comprobación para que no inicie de nuevo las variables al valor por defecto
+# y no cree de nuevo el fichero ldif de los usuarios
 # si se ejecuta de nuevo en la misma maquina.
 if [ $primerInicio -eq 1 ]
 then
@@ -13,9 +15,9 @@ then
         primerInicio=2
 fi
 
-#Limpiamos el fichero de inserción de usuarios
+# Limpiamos el fichero de inserción de usuarios.
 echo > usuarios_empresa.ldif
-#Añadimos los parámetros
+# Añadimos los parámetros.
 while IFS=: read -r cn sn usuario clave
 do
         echo "dn: uid=$usuario,ou=People,dc=gonzalonazareno,dc=org">>usuarios_empresa.ldif
@@ -32,6 +34,6 @@ do
         echo -e "sn: $sn\n">>usuarios_empresa.ldif
 done < usuarios_empresa.csv
 
-#Se añaden los usuarios insertados en el fichero al arbol de ldap
-#que especifiquemos
+# Se añaden los usuarios insertados en el fichero al arbol de ldap
+# que especifiquemos.
 ldapadd -f usuarios_empresa.ldif -x -D "cn=admin,dc=gonzalonazareno,dc=org" -W
