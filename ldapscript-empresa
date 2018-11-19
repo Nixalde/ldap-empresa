@@ -32,6 +32,7 @@ do
         echo "loginShell: /bin/bash">>usuarios_empresa.ldif
         echo "userPassword:: $clave">>usuarios_empresa.ldif
         echo -e "sn: $sn\n">>usuarios_empresa.ldif
+        uid=$(($uid + 1))
 done < usuarios_empresa.csv
 
 # Se añaden los usuarios insertados en el fichero al arbol de ldap
