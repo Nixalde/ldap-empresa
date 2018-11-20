@@ -1,0 +1,17 @@
+dn: cn=comercial,ou=Group,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: comercial
+member: uid=cristian.avecilla,ou=People,dc=gonzalonazareno,dc=org
+
+dn: cn=almacen,ou=Group,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: almacen
+member: uid=alfonso.perez,ou=People,dc=gonzalonazareno,dc=org
+
+dn: cn=admin,ou=Group,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: admin
+member: uid=sebastian.castillo,ou=People,dc=gonzalonazareno,dc=org
